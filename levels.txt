@@ -1,0 +1,141 @@
+{
+        type: "LVL",
+        name: "Novice",
+        milestones: [0, 1250, 2500, 3750],
+        level: !0,
+        bonuses: [0, 50, 100, 200],
+        id: "L01"
+    }, {
+        type: "LVL",
+        name: "Hotshot",
+        milestones: [5E3, 1E4, 15E3, 2E4],
+        level: !0,
+        bonuses: [250, 375, 500, 1E3],
+        id: "L02"
+    }, {
+        type: "LVL",
+        name: "Phenom",
+        milestones: [25E3, 31250, 37500, 43750],
+        level: !0,
+        bonuses: [313, 469, 625, 1250],
+        id: "L03"
+    }, {
+        type: "LVL",
+        name: "Prodigy",
+        milestones: [5E4, 62500, 75E3, 87500],
+        level: !0,
+        bonuses: [625, 938, 1250, 2500],
+        id: "L04"
+    }, {
+        type: "LVL",
+        name: "Brainiac",
+        milestones: [1E5, 125E3, 15E4, 175E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L05"
+    }, {
+        type: "LVL",
+        name: "Savant",
+        milestones: [2E5, 225E3, 25E4, 275E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L06"
+    }, {
+        type: "LVL",
+        name: "Maven",
+        milestones: [3E5, 325E3, 35E4, 375E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L07"
+    }, {
+        type: "LVL",
+        name: "Verbivore",
+        milestones: [4E5, 425E3, 45E4, 475E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L08"
+    }, {
+        type: "LVL",
+        name: "Logophile",
+        milestones: [5E5, 525E3, 55E4, 575E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L09"
+    }, {
+        type: "LVL",
+        name: "Sage",
+        milestones: [6E5, 625E3, 65E4, 675E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L10"
+    }, {
+        type: "LVL",
+        name: "Maestro",
+        milestones: [7E5, 725E3, 75E4, 775E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L11"
+    }, {
+        type: "LVL",
+        name: "Guru",
+        milestones: [8E5, 825E3, 85E4, 875E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L12"
+    }, {
+        type: "LVL",
+        name: "Polymath",
+        milestones: [9E5, 925E3, 95E4, 975E3],
+        level: !0,
+        bonuses: [1250, 1875, 2500, 5E3],
+        id: "L13"
+    }, {
+        type: "LVL",
+        name: "Sesquipedalianist",
+        milestones: [1E6, 125E4, 15E5, 175E4],
+        level: !0,
+        bonuses: [12500, 18750, 25E3, 5E4],
+        id: "L14"
+    }, {
+        type: "LVL",
+        name: "Lexicomaniac",
+        milestones: [2E6, 275E4, 35E5, 425E4],
+        level: !0,
+        bonuses: [37500, 56250, 75E3, 15E4],
+        id: "L15"
+    }, {
+        type: "LVL",
+        name: "Vocabularian",
+        milestones: [5E6, 625E4, 75E5, 875E4],
+        level: !0,
+        bonuses: [62500, 93750, 125E3, 25E4],
+        id: "L16"
+    }, {
+        type: "LVL",
+        name: "Walking Dictionary",
+        milestones: [1E7, 1375E4, 175E5, 2125E4],
+        level: !0,
+        bonuses: [187500, 281250, 375E3, 75E4],
+        id: "L17"
+    }, {
+        name: "Running Dictionary",
+        type: "LVL",
+        milestones: [25E6, 3125E4, 375E5, 4375E4],
+        level: !0,
+        bonuses: [312500, 468750, 625E3, 125E4],
+        id: "L18"
+    }, {
+        name: "Mastermind",
+        type: "LVL",
+        milestones: [5E7, 625E5, 75E6, 875E5],
+        level: !0,
+        bonuses: [625E3, 937500, 125E4, 25E5],
+        id: "L19"
+    }, {
+        name: "Word Czar",
+        type: "LVL",
+        milestones: [1E8, 2E8, 3E8, 4E8],
+        level: !0,
+        bonuses: [5E6, 75E5, 1E7, 2E7],
+        id: "L20"
+    }
