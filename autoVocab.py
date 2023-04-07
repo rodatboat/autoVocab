@@ -84,6 +84,13 @@ class Client:
         answers = htmlData.find("div", {"class": "choices"}).find_all("a")
         answers = [{"answer":a.text, "code":a["nonce"]} for a in answers]
 
+        # if "choose the best picture" in question:
+        #     return {
+        #                 "context":answers[0],
+        #                 "done":True
+        #             }
+        #     pass
+
         return {
             "context":context,
             "question":question,
@@ -98,9 +105,6 @@ class Client:
         for a in self.current_question["answers"]:
             answers_string += a["answer"]
             answers_string += "\n"
-
-        # print(self.question_type)
-        # print(self.current_question)
 
         if 1 == 0:
             return "=+="
