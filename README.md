@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 Example can be found in `main.py`. To run the example just modify `config.py` with your specifications.
 
-```json
+```
 poe_session_token = "P-B HERE"
 vocab_session_token = "JSESSIONID HERE"
 vocab_aws = "AWSALB HERE"
