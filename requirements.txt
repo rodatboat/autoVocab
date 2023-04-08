@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.2
+poe==0.0.1
+poe_api==0.2.6
+requests==2.27.1
