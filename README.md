@@ -3,7 +3,7 @@
 <img src="./resources/logo.png" width="100" height="100">
 <!-- </p> -->
 
-The Python script leverages ChatGPT to automatically retrieve correct answers for Vocabulary.com's practice mode questions, and returns the answers using their API. making homework assignments a breeze to complete in minutes.
+This python bot leverages ChatGPT to automatically retrieve correct answers for Vocabulary.com's practice mode questions, and returns the answers using their API. making homework assignments a breeze to complete in minutes.
 
 
 ## Features
@@ -12,6 +12,7 @@ The Python script leverages ChatGPT to automatically retrieve correct answers fo
 - Custom run duration (1 hour default)
 - Compatible with any public vocabulary list
 - Harder to detect
+- Fast bot
 
 
 ## Installation
@@ -110,4 +111,4 @@ Results after testing the for several hours:
 
  ##
  
- I do not advice you use this script, use at your own risk. Vocabulary.com and poe.com will detect you eventually and suspend your accounts.
+ I do not advice you use this bot, use at your own risk. Vocabulary.com and poe.com will detect you eventually and suspend your accounts.
