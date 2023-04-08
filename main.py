@@ -12,10 +12,14 @@ client = poe.Client(f"{poe_session_token}")
 vocabClient = autoVocab.Client(vocab_session_token, vocab_aws, guid)
 listStatus = True
 
+total_sleep = 0
+
 if vocabClient.start_from_list(listId) == -1:
     listStatus = False
 
 while listStatus:
+    if total_sleep >= 3600: # 3600 = 1 hour
+        break
     try:
         message = vocabClient.formatQuestion()
         if not message.startswith("=+="):
@@ -28,6 +32,7 @@ while listStatus:
         sleep_time = round(random.uniform(0, 4), 3)
         print(f"Sleeping for {sleep_time}s")
         time.sleep(sleep_time)
+        total_sleep += sleep_time
 
         vocabClient.answer_question(text_answer)
         finished = vocabClient.next_question()
