@@ -8,13 +8,13 @@ class Client:
     start_endpoint = "https://www.vocabulary.com/challenge/start.json"
     llm_endpoint = "http://localhost:11434/api/generate"
 
-    important_cookies = ["AWSALB", "AWSALBCORS"]
+    important_cookies = ["AWSALB", "AWSALBCORS", "JSESSIONID", "guid"]
     headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0',
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=1l92JXW91GruB93V6Kn0YgcUOVjzAGMgT/G+PqhAlotb+Z1TR8zRC32JPVRWJXjITIpFi5cHmv54lvObcKxdAfYLfO+hueglHR1ErnJ/spyqf0CiiGs/sgzojWsA; AWSALBCORS=1l92JXW91GruB93V6Kn0YgcUOVjzAGMgT/G+PqhAlotb+Z1TR8zRC32JPVRWJXjITIpFi5cHmv54lvObcKxdAfYLfO+hueglHR1ErnJ/spyqf0CiiGs/sgzojWsA'
+    'Cookie': 'AWSALB=EN6O8y+BDryMcZ8w7VUfE2ti1cZlNtG7MiQ/BzTsxhOb7GbjIXL9cA9F2P7RjOLP+YeoKuD4TWr9y8SGs5HXtZLFzO7/EIHCxAEDIfNtK5GyrAl6PasMuw3bxNwm; AWSALBCORS=EN6O8y+BDryMcZ8w7VUfE2ti1cZlNtG7MiQ/BzTsxhOb7GbjIXL9cA9F2P7RjOLP+YeoKuD4TWr9y8SGs5HXtZLFzO7/EIHCxAEDIfNtK5GyrAl6PasMuw3bxNwm; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
     }
     
     sat_lists = [148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]
@@ -71,6 +71,10 @@ class Client:
             return
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
+        
+        if int(data_json["pdata"]["points"]) < 100000:
+            print("Not logged in...")
+            exit()
 
         self.question_type = data_json["qtype"]
         b64_question = data_json["code"]
@@ -97,13 +101,30 @@ class Client:
                 if len(context) == 1:
                     context = self.clean_string(context[0].text)
                 else:
-                    print("Invalid question:", self.question_type)
-                    print(context)
-                    exit()
+                    newContext = []
+                    for i in context:
+                        newContext.append(self.clean_string(i.text))
+                    context = newContext
+                    
+        if self.question_type == "T":
+            correct_answer = htmlData.find("div", {"class": "complete"}).find("strong").text
+            return {
+                "context":context,
+                "question":"",
+                "choices":[{
+                    "answer": correct_answer,
+                    "code": correct_answer
+                }],
+                "done":False
+            }
 
         # Gets the question itself
-        question = htmlData.find("div", {"class": "instructions"}).text
-        question = self.clean_string(question)
+        try:
+            question = htmlData.find("div", {"class": "instructions"}).text
+            question = self.clean_string(question)
+        except:
+            question = ""
+            pass
 
         # Gets the answer choices
         choices = htmlData.find("div", {"class": "choices"}).find_all("a")
@@ -125,11 +146,17 @@ class Client:
     
     def answerQuestion(self, answer):
         print("Answering question...")
+        correct_answer = "abc123"
+        try:
+            correct_answer = answer["answer"]["code"]
+        except:
+            pass
+        
         payload = {
             "secret": self.r_secret,
             "v": 3,
             "rt": int(round(random.uniform(3, 7), 3) * 1000),
-            "a": answer["answer"]["code"]
+            "a": correct_answer
         }
 
         data = self.session.post(self.save_answer_endpoint, data=payload, headers=self.headers)
@@ -147,6 +174,10 @@ class Client:
         
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
+        
+        if int(data_json["pdata"]["points"]) < 100000:
+            print("Not logged in...")
+            exit()
 
         # Currently does nothing, but using this dict we can update the current cookies
         data_cookies = data.cookies.get_dict()
@@ -256,6 +287,10 @@ class Client:
 
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
+        
+        if int(data_json["pdata"]["points"]) < 100000:
+            print("Not logged in...")
+            exit()
 
         if "game" in data_json and float(data_json["game"]["progress"]) == 1.0:
             return -1
@@ -290,7 +325,8 @@ class Client:
             "current_question": self.current_question,
             "points": self.total_points,
             "question_type": self.question_type,
-            "r_secret": self.r_secret
+            "r_secret": self.r_secret,
+            "cookies": self.headers["Cookie"]
         }
         
         with open("progress.json", "w") as outfile:
@@ -304,6 +340,7 @@ class Client:
                 self.total_points = data["points"]
                 self.question_type = data["question_type"]
                 self.r_secret = data["r_secret"]
+                self.cookies = self.headers["Cookie"]
                 
     def updateCookies(self, diction):
         newCookies = ""
