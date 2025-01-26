@@ -14,10 +14,9 @@ class Client:
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=kThikvmAh8D34N4FACzWFeTy86ylFraazdDGKihpGx6C7SsvlvRzTPck3nViFodOgRZugCQJvjMlf4pVdjma/wOyBbCvXUp/ss3LsRzmEBIWXMz5IqT79owoFHT5; AWSALBCORS=kThikvmAh8D34N4FACzWFeTy86ylFraazdDGKihpGx6C7SsvlvRzTPck3nViFodOgRZugCQJvjMlf4pVdjma/wOyBbCvXUp/ss3LsRzmEBIWXMz5IqT79owoFHT5; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
+    'Cookie': 'AWSALB=6w4F9VgTYKYn3+2WTD+oClHmi0TLXg88rQpxAAsz4mP7fcXqMuYwlcMvej/Vf+Ng3dbX2OpiOVETJ0iBypW0KZwzq/WRJmrmDxLAb8dsCXVZ0u5GYZafbjeYO/66; AWSALBCORS=6w4F9VgTYKYn3+2WTD+oClHmi0TLXg88rQpxAAsz4mP7fcXqMuYwlcMvej/Vf+Ng3dbX2OpiOVETJ0iBypW0KZwzq/WRJmrmDxLAb8dsCXVZ0u5GYZafbjeYO/66; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
     }
-    
-    sat_lists = [148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]
+    sat_lists = [8340291, 8995949, 9048293, 9336685, 148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]    
 
     r_secret = ""
     current_question = {}
@@ -30,13 +29,14 @@ class Client:
 
     # RESULTS
     total_points = 0
+    total_errors = 0
 
     def __init__(self):
         self.session = requests.Session()
         self.loadLocalProgress()
         
     def start_from_list(self, listId):
-        print("Initializing vocabulary practice from list...")
+        # print("Initializing vocabulary practice from list...")
         self.listId = listId
         payload = {
             "v": 3,
@@ -46,7 +46,7 @@ class Client:
         
         if self.r_secret != "":
             print("Continuing from previous session...")
-            print("Secret:", self.r_secret)
+            # print("Secret:", self.r_secret)
             payload["secret"] = self.r_secret
         
         cookies = {}
@@ -58,11 +58,12 @@ class Client:
 
         successful_start = data.status_code == 200
         if not successful_start:
-            print("Failed to start practice session from list.")
-            print("ERROR:", data.status_code)
+            self.total_errors += 1
+            # print("Failed to start practice session from list.")
+            # print("ERROR:", data.status_code)
             try:
-                print("ERROR MESSAGE:", json.loads(data.text))
-                self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
+                # print("ERROR MESSAGE:", json.loads(data.text))
+                pass
             except:
                 raise Exception("ERROR")
         data_json = json.loads(data.text)
@@ -86,7 +87,7 @@ class Client:
         # print("Question (Decoded): ", self.current_question)
 
     def parseQuestion(self, htmlData):
-        print("Parsing question...")
+        # print("Parsing question...")
         htmlData = soup(htmlData, 'html.parser')
 
         # Gets the question context, some questions have additional information like a quote or example.
@@ -141,7 +142,7 @@ class Client:
         return result
     
     def answerQuestion(self, answer):
-        print("Answering question...")
+        # print("Answering question...")
         correct_answer = "abc123"
         try:
             correct_answer = answer["answer"]["code"]
@@ -159,10 +160,12 @@ class Client:
 
         successful_start = data.status_code == 200
         if not successful_start:
-            print("Failed to answer question.")
-            print("ERROR:", data.status_code)
+            self.total_errors += 1
+            # print("Failed to answer question.")
+            # print("ERROR:", data.status_code)
             try:
-                print("ERROR MESSAGE:", json.loads(data.text))
+                # print("ERROR MESSAGE:", json.loads(data.text))
+                pass
             except:
                 pass
             return
@@ -181,21 +184,22 @@ class Client:
         answer_correct = data_json["answer"]["correct"]
         
         if not answer_correct:
-            print("WRONG ANSWER!")
+            # print("WRONG ANSWER!")
             self.saveLocalProgress()
-            pass
+            return False
         else:
-            print("RIGHT ANSWER!")
+            # print("RIGHT ANSWER!")
             self.total_points += int(data_json["answer"]["points"])
-            print(self.total_points)
+            # print(self.total_points)
             self.saveLocalProgress()
             
             with open("data.txt", "a") as datafile:
                 line = '{}|{}|{}|{}\n'.format(self.current_question["context"], self.current_question["question"], self.current_question["choices"], answer)
                 datafile.write(line)
+            return True
         
     def askLLM(self):
-        print("Asking LLM...")
+        # print("Asking LLM...")
         
         payload = {
             "model": "llama3.1:8b",
@@ -255,7 +259,7 @@ class Client:
         return answer_json
         
     def next_question(self):
-        print("Getting next question...")
+        # print("Getting next question...")
         payload = {
             "secret": self.r_secret,
             "v": 3,
@@ -269,11 +273,12 @@ class Client:
         
         successful_start = data.status_code == 200
         if not successful_start:
-            print("Failed to get next question.")
-            print("ERROR:", data.status_code)
+            self.total_errors += 1
+            # print("Failed to get next question.")
+            # print("ERROR:", data.status_code)
             try:
-                print("ERROR MESSAGE:", json.loads(data.text))
-                self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
+                # print("ERROR MESSAGE:", json.loads(data.text))
+                pass
             except:
                 raise Exception("ERROR")
             return
@@ -297,7 +302,7 @@ class Client:
             b64_question = data_json["code"]
             question_html = base64.b64decode(b64_question).decode('utf-8')
 
-            print("Question Type:", self.question_type)
+            # print("Question Type:", self.question_type)
             # print("Question (Encoded): ", b64_question)
             
             self.current_question = self.parseQuestion(question_html)
@@ -313,7 +318,7 @@ class Client:
         return self.current_question
     
     def saveLocalProgress(self):
-        print("Updating local progress...")
+        # print("Updating local progress...")
         save = {
             "current_question": self.current_question,
             "points": self.total_points,
