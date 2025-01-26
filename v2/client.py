@@ -14,7 +14,7 @@ class Client:
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=6w4F9VgTYKYn3+2WTD+oClHmi0TLXg88rQpxAAsz4mP7fcXqMuYwlcMvej/Vf+Ng3dbX2OpiOVETJ0iBypW0KZwzq/WRJmrmDxLAb8dsCXVZ0u5GYZafbjeYO/66; AWSALBCORS=6w4F9VgTYKYn3+2WTD+oClHmi0TLXg88rQpxAAsz4mP7fcXqMuYwlcMvej/Vf+Ng3dbX2OpiOVETJ0iBypW0KZwzq/WRJmrmDxLAb8dsCXVZ0u5GYZafbjeYO/66; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
+    'Cookie': 'AWSALB=zqksa7T9fXco5IqC3J1LuKJIIA0/JQfl+rLo0aLbmS8CLZce26KE8C3CcDLjzQFf4UeHZob2p/Xh0pUexlFynAWkCESZS1Wzurq4gwxfOt7tk0JwxplYhd1MGXgo; AWSALBCORS=5leDVvsNsiAO6esVUZ/etVIzvLtY0IkO7EWabvvCiSicUbDE8h2hqVmIDj36WQUCVjHhUToSEPC9LnbblgeZnGq2URYTFGIKH0/So2KnDwsxXEkUdpbGJlkTrYHc; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
     }
     sat_lists = [8340291, 8995949, 9048293, 9336685, 148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]    
 
@@ -30,6 +30,7 @@ class Client:
     # RESULTS
     total_points = 0
     total_errors = 0
+    list_progress = 0
 
     def __init__(self):
         self.session = requests.Session()
@@ -162,13 +163,7 @@ class Client:
         if not successful_start:
             self.total_errors += 1
             # print("Failed to answer question.")
-            # print("ERROR:", data.status_code)
-            try:
-                # print("ERROR MESSAGE:", json.loads(data.text))
-                pass
-            except:
-                pass
-            return
+            raise Exception("ERROR")
         
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
@@ -182,6 +177,7 @@ class Client:
         self.updateCookies(data_cookies)
 
         answer_correct = data_json["answer"]["correct"]
+        self.list_progress = float(data_json["game"]["progress"])
         
         if not answer_correct:
             # print("WRONG ANSWER!")
@@ -276,12 +272,7 @@ class Client:
             self.total_errors += 1
             # print("Failed to get next question.")
             # print("ERROR:", data.status_code)
-            try:
-                # print("ERROR MESSAGE:", json.loads(data.text))
-                pass
-            except:
-                raise Exception("ERROR")
-            return
+            raise Exception("ERROR")
 
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
@@ -307,6 +298,7 @@ class Client:
             
             self.current_question = self.parseQuestion(question_html)
             # print("Question (Decoded): ", self.current_question)
+            self.list_progress = float(data_json["game"]["progress"])
 
     def clean_string(self, string):
         if string is not None and isinstance(string, str):
@@ -342,9 +334,9 @@ class Client:
             
     def fetched_question_success(self):
         try:
-            status = self.next_question()
-            if status == -1:
-                self.start_from_list(sat_lists[random.randint(0, len(sat_lists)-1)])
+            self.next_question()
+            if self.list_progress == -1:
+                self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             return True
         except:
             return False
