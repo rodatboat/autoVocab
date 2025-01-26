@@ -1,5 +1,6 @@
-import requests, json, base64, random
+import json, base64, random
 from bs4 import BeautifulSoup as soup
+from curl_cffi import requests
 
 
 class Client:
@@ -8,29 +9,31 @@ class Client:
     start_endpoint = "https://www.vocabulary.com/challenge/start.json"
 
     headers = {
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0",
-        "origin": "https://www.vocabulary.com",
-        "x-requested-with": "XMLHttpRequest",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0',
+    'Origin': 'https://www.vocabulary.com',
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Cookie': '__cf_bm=nknMOlpgLxMNRpq0m7PpsljYOhAxMd8wo4hPMOWeuT4-1737804179-1.0.1.1-7rQ62hFn49EOGU6e0FL34kHSwRv.pdc5EDjnMZoMFA2h5caItc4_WWVf3ReumzZNkpHnskZk1QtqfbQkBkVVzw; _eu=0; autologin=1; cf_clearance=2EtlZh.920cJgguUigsYPVaIgjWgA05cmXkjR2rs47w-1737803137-1.2.1.1-SZ9m_OJzgnKWqHa5I8RGDJQKTVwBkngfTo.PYHma7RIeyMaUisHJYPM.niPbylwDMPOa46I.jFwuXEau3B0mXrc98HHX6UdS9QrdkMbkK3o.8xU7KzZkMFLHP8hS4jbxDixHRogXWe9SXbBS9_46jEiOTW9pCahhwTEPv.nxqyg2EIXVIeda8yLlhKZxjQUpiacLHJMQmeuR85Mz4qPQIDa1v6LwJ1DOdwV5LCWbJ_9QHrso.0tBt_hdDP2gFZJqlefxdf2BDgN8HqJAPSzdafu7BjR8JeXdywDEIL8ygLM; guid=9a897a5e2869a7aa4334ad4d7014a88f; AWSALB=PN8GEUyvUwwpH1C2anGPRdHHo2J9/LyIw76ZoArzgVtDFhKuSOVbSvxJDqVIllnQw2Nzw+1h9KvNIZT5LbxhQP3VEtZpax00vuonZQHuqRJswa07Twmfyxb1mG2I; AWSALBCORS=PN8GEUyvUwwpH1C2anGPRdHHo2J9/LyIw76ZoArzgVtDFhKuSOVbSvxJDqVIllnQw2Nzw+1h9KvNIZT5LbxhQP3VEtZpax00vuonZQHuqRJswa07Twmfyxb1mG2I; JSESSIONID=83A78EF7EC07B7475E7DAC0575792640; tz=America/Chicago'
     }
+
 
     r_secret = ""
     current_question = {}
     question_type = ""
+    cookies = {}
 
     points = 0
     listId = 0
 
-    def __init__(self, session_token, vocab_aws, guid):
-        self.session_token = session_token
+    def __init__(self):
         self.session = requests.Session()
-        self.session.cookies.set(
-            "JSESSIONID", self.session_token, domain="www.vocabulary.com")
-        
-        self.session.cookies.set(
-            "AWSALB", vocab_aws, domain="www.vocabulary.com")
-        self.session.cookies.set(
-            "guid", guid, domain="www.vocabulary.com")
+
+        for cookie in self.headers['Cookie'].split('; '):
+            key, value = cookie.split('=')
+            self.cookies[key] = value
+            
+            self.session.cookies.set(
+                key, value, domain="www.vocabulary.com")
         
         
     def start_from_list(self, listId):
@@ -43,12 +46,13 @@ class Client:
         }
 
         data = self.session.post(self.next_question_endpoint,
-                          data=payload, headers=self.headers)
+                          data=payload, headers=self.headers, cookies=self.cookies)
         
         self.r_secret = json.loads(data.text)["secret"]
+        print(data.text)
 
-        if float(json.loads(data.text)["game"]["progress"]) == 1.0:
-            return -1
+        # if float(json.loads(data.text)["game"]["progress"]) == 1.0:
+        #     return -1
         
         self.question_type = json.loads(data.text)["question"]["type"]
         
@@ -63,6 +67,7 @@ class Client:
         
 
     def parseQuestion(self, htmlData):
+        print("Parsing question...")
         htmlData = soup(htmlData, 'html.parser')
 
         context = htmlData.find("div", {"class": "questionContent"})
@@ -82,7 +87,7 @@ class Client:
         question = htmlData.find("div", {"class": "instructions"}).text.strip().replace('\r', '').replace('\n', '').replace('\t', ' ')
 
         answers = htmlData.find("div", {"class": "choices"}).find_all("a")
-        answers = [{"answer":a.text, "code":a["nonce"]} for a in answers]
+        answers = [{"answer":a.text, "code":a["data-nonce"]} for a in answers]
 
         # if "choose the best picture" in question:
         #     return {
@@ -124,7 +129,7 @@ class Client:
         payload = {
             "secret": self.r_secret,
             "v": 3,
-            "rt": int(round(random.uniform(1, 6), 3) * 1000),
+            "rt": int(round(random.uniform(3, 7), 3) * 1000),
             "a": answer
         }
 

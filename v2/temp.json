@@ -1,0 +1,57 @@
+{
+    "v": 0,
+    "code": "PGRpdiBjbGFzcz0iY2hhbGxlbmdlLXNsaWRlIHdpZGUgYXVkaW8tZW5hYmxlZCIgZGF0YS1zbGlkZS10eXBlPSJjaG9pY2UiPg0KPGRpdiBjbGFzcz0id3JhcHBlciI+DQo8ZGl2IGNsYXNzPSJzbGlkZXIiPg0KPHNlY3Rpb24gY2xhc3M9ImxlZnQiPg0KPGRpdiBjbGFzcz0icXVlc3Rpb24gdHlwZVMiIGRhdGEtdGVtcGxhdGU9Im11bHRpcGxlLWNob2ljZSI+DQoJDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoJPGRpdiBjbGFzcz0ibW9kZSI+DQoJDQoJCQ0KCQkNCgkJPHNwYW4gY2xhc3M9InByb2dyZXNzIj5QUk9HUkVTUzwvc3Bhbj4NCgkJDQoJCQ0KCTogPHNwYW4gY2xhc3M9InBvaW50VmFsdWUiPjEwMDwvc3Bhbj4gUE9JTlRTPC9kaXY+DQoNCg0KPGRpdiBjbGFzcz0icXVlc3Rpb25Db250ZW50Ij4NCgkNCjwvZGl2Pg0KDQo8ZGl2IGNsYXNzPSJpbnN0cnVjdGlvbnMiPg0KCQ0KCQkNCgkJDQoJCQ0KCQkJPHN0cm9uZz5lbmRvd21lbnQ8L3N0cm9uZz4gaGFzIHRoZSBzYW1lIG9yIGFsbW9zdCB0aGUgc2FtZSBtZWFuaW5nIGFzOg0KCQkNCgkJDQoJCQ0KCQkNCgkJDQoJCQ0KCQ0KPC9kaXY+DQoNCg0KCTxkaXYgY2xhc3M9ImNob2ljZXMiPg0KCQkNCgkJCQ0KCQkJDQoJCQkJDQoJCQkJDQoJCQkJCTxhIGhyZWY9IiMiIGFjY2Vzc2tleT0iMUEiIGRhdGEtbm9uY2U9ImMwZ3ZqbyIgDQoJCQkJCQk+cmVmbGVjdGlvbg0KCQkJCQkgCSA8ZGl2IGNsYXNzPSJ0b29scyI+PHNwYW4gcm9sZT0iYnV0dG9uIiB3b3JkPSJyZWZsZWN0aW9uIiBjbGFzcz0ibG9va3VwIj48L3NwYW4+PC9kaXY+DQoJCQkJCTwvYT4NCgkJCQkNCgkJCQkJPGEgaHJlZj0iIyIgYWNjZXNza2V5PSIyQiIgZGF0YS1ub25jZT0ibHYybzE3IiANCgkJCQkJCT5wcm9mdW5kaXR5DQoJCQkJCSAJIDxkaXYgY2xhc3M9InRvb2xzIj48c3BhbiByb2xlPSJidXR0b24iIHdvcmQ9InByb2Z1bmRpdHkiIGNsYXNzPSJsb29rdXAiPjwvc3Bhbj48L2Rpdj4NCgkJCQkJPC9hPg0KCQkJCQ0KCQkJCQk8YSBocmVmPSIjIiBhY2Nlc3NrZXk9IjNDIiBkYXRhLW5vbmNlPSIyMXB0YXEiIA0KCQkJCQkJPnRhbGVudA0KCQkJCQkgCSA8ZGl2IGNsYXNzPSJ0b29scyI+PHNwYW4gcm9sZT0iYnV0dG9uIiB3b3JkPSJ0YWxlbnQiIGNsYXNzPSJsb29rdXAiPjwvc3Bhbj48L2Rpdj4NCgkJCQkJPC9hPg0KCQkJCQ0KCQkJCQk8YSBocmVmPSIjIiBhY2Nlc3NrZXk9IjREIiBkYXRhLW5vbmNlPSI3d2pwdngiIA0KCQkJCQkJPmZvbGx5DQoJCQkJCSAJIDxkaXYgY2xhc3M9InRvb2xzIj48c3BhbiByb2xlPSJidXR0b24iIHdvcmQ9ImZvbGx5IiBjbGFzcz0ibG9va3VwIj48L3NwYW4+PC9kaXY+DQoJCQkJCTwvYT4NCgkJCQkNCgkJCQ0KCQkNCgk8L2Rpdj4NCg0KDQoNCgk8ZGl2IGNsYXNzPSJsaWZlTGluZXMiIHN0eWxlPSJkaXNwbGF5Om5vbmU7IiA+DQoJCQ0KCQkJIDxzcGFuIGNsYXNzPSJsYWJlbCI+Tm90IHN1cmU/IEdldCBhIGhpbnQ6PC9zcGFuPg0KCQkJIDxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm93cmFwOyI+PGEgZGF0YS10eXBlPSJGIiBjbGFzcz0iZmlmdHlmaWZ0eSIgdGl0bGU9IldlJ2xsIGVsaW1pbmF0ZSB0d28gY2hvaWNlcyBmb3IgeW91LiIgaHJlZj0iamF2YXNjcmlwdDp2b2lkKDApOyI+NTAvNTA8L2E+DQoJCQkgCTxhIGRhdGEtdHlwZT0iRSIgY2xhc3M9ImludGhld2lsZCIgdGl0bGU9IlNlZSBleGFtcGxlcyBvZiB0aGlzIHdvcmQgdXNlZCBpbiBjb250ZXh0LiIgaHJlZj0iamF2YXNjcmlwdDp2b2lkKDApOyI+V29yZCBpbiB0aGUgV2lsZDwvYT4NCgkJCSAJPGEgZGF0YS10eXBlPSJEIiBjbGFzcz0ic2VlZGVmIiB0aXRsZT0iU2VlIHRoZSBkZWZpbml0aW9uIG9mIHRoaXMgd29yZCIgaHJlZj0iamF2YXNjcmlwdDp2b2lkKDApOyI+RGVmaW5pdGlvbjwvYT4NCgkJCSA8L3NwYW4+DQoJCSANCgkgPC9kaXY+DQoJPGRpdiBjbGFzcz0ibGlmZUxpbmVDb250ZW50IiBzdHlsZT0iZGlzcGxheTpub25lOyIgPjwvZGl2PgkJDQoNCg0KDQo8L2Rpdj4NCjxkaXYgY2xhc3M9InN0YXR1cyI+PC9kaXY+DQo8ZGl2IGNsYXNzPSJkZWYiPjwvZGl2Pg0KPC9zZWN0aW9uPg0KDQo8c2VjdGlvbiBjbGFzcz0icmlnaHQgYmx1cmItY29udGFpbmVyIj48L3NlY3Rpb24+DQoNCjwvZGl2PjwvZGl2PjwvZGl2Pg==",
+    "difficulty": 5.36,
+    "qtype": "S",
+    "adata": "eyJhYmFwcmYiOlsiMjFjZ25kIiwiN2p3Y2lrIiwieWkyYjE3IiwicDB0aXdiIl0sInN2ZWZnUHVidnByIjotMSwibmFmanJlQmVxcmUiOjQzMTIsImpiZXEiOiJyYXFianpyYWciLCJjeW5scnEiOnNueWZyfQ==",
+    "cmd": "newround",
+    "pdata": {
+        "points": 1317915,
+        "level": {
+            "id": "L14",
+            "name": "Sesquipedalianist"
+        },
+        "numplayed": 8685,
+        "nummastered": 484,
+        "rn": 0,
+        "round": [],
+        "lists": [
+            {
+                "current": false,
+                "listId": 1993157,
+                "wordcount": 25,
+                "priority": 0,
+                "progress": 0.034,
+                "name": "Giving Words"
+            },
+            {
+                "current": false,
+                "listId": 1623099,
+                "wordcount": 13,
+                "priority": 1,
+                "progress": 1.0,
+                "name": "Cat Vocabulary: A Feline Lexicon"
+            }
+        ]
+    },
+    "auth": {
+        "loggedin": true,
+        "uid": "B1PFE05JHBRHVG",
+        "role": "None",
+        "school": {
+            "_id": {
+                "$oid": "50f5888fd762791864543d82"
+            },
+            "cn": "USA",
+            "ct": "Miami",
+            "n": "Miami Arts 6 - 12 Zelda Glazer",
+            "st": "FL",
+            "zp": "33185",
+            "mdrid": 11435775,
+            "dmdrid": 185155
+        },
+        "nickname": "Carl T."
+    },
+    "secret": "MjAyMzAxMDEb7cGbPQ2oHgQxVpmEAb11_XTRkaDFovF1Uku6xoSW4pii2vpvl5yfV8d2BqR-1sjYKegTzLOXnbsznWlSGPjsnsubNm0TI_yQJ_2tlhZ22d-VCx26mPgDcr9b4gf-YJEzRFHHI-oowJQJQ36coRCcxeRBs6OWxLpsM08C30Xdnj9a4boDCg-vLFHv4_JKM1UruVIDYM4utmq_vABuhKinZ8nG0aP5Pjf9POdr8yfsqLmQVN5ygTuaWXHlHECPV6Uf2hEJD93CoRQs6f2Cm2grtnm7-xbOpr1co3KM7rGfdIo0de3y3TKv3RN-EkN-ddMXqcr8v2n9_UA0DyjshOmszQ",
+    "valid": true
+}

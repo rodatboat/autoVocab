@@ -1,15 +1,11 @@
-import poe, time, random
+import time, random
 import autoVocab
 import config
+from curl_cffi import requests
 
-poe_session_token = config.poe_session_token
-vocab_session_token = config.vocab_session_token
-vocab_aws = config.vocab_aws
-guid = config.guid
 listId = config.listId
 
-client = poe.Client(f"{poe_session_token}")
-vocabClient = autoVocab.Client(vocab_session_token, vocab_aws, guid)
+vocabClient = autoVocab.Client()
 listStatus = True
 
 total_sleep = 0
@@ -23,9 +19,10 @@ while listStatus:
     try:
         message = vocabClient.formatQuestion()
         if not message.startswith("=+="):
-            for ai_answer in client.send_message("chinchilla", message, with_chat_break=True):
-                pass
-            text_answer = ai_answer["text"].replace(".", "")
+            # for ai_answer in client.send_message("chinchilla", message, with_chat_break=True):
+            #     pass
+            # text_answer = ai_answer["text"].replace(".", "")
+            text_answer = "1234"
         else:
             text_answer = message.replace("=+=","")
 
