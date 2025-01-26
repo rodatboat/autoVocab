@@ -23,10 +23,17 @@ if __name__ == "__main__":
             total_sleep += sleep_time
         started = True
         
-        if not vocabClient.fetched_question_success():
+        fail_counter = 0
+        fetch_success = vocabClient.fetched_question_success()
+        if not fetch_success:
+            if(fail_counter > 5):
+                print("Failed to fetch question 5 times. Exiting...")
+                exit()
+            
             print("Failed to fetch question. Retrying...")
+            fail_counter += 1
             time.sleep(5)
-            vocabClient.fetched_question_success()
+            fetch_success = vocabClient.fetched_question_success()
         
         answer = vocabClient.askLLM()
         print(answer)
