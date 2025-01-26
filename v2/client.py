@@ -8,13 +8,16 @@ class Client:
     start_endpoint = "https://www.vocabulary.com/challenge/start.json"
     llm_endpoint = "http://localhost:11434/api/generate"
 
+    important_cookies = ["AWSALB", "AWSALBCORS"]
     headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 OPR/115.0.0.0',
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=QJz9kOGiFqh9uTVY5VQsfRNO3mMge1BkPxedu474JQpc/A2ksZGD+6R4wKA67fygcKBdcomS67CrOjxQp8tOsttDNmh8SNhffKddoVsI1XQhsGQto1RPxMM8ltAz; AWSALBCORS=QJz9kOGiFqh9uTVY5VQsfRNO3mMge1BkPxedu474JQpc/A2ksZGD+6R4wKA67fygcKBdcomS67CrOjxQp8tOsttDNmh8SNhffKddoVsI1XQhsGQto1RPxMM8ltAz'
+    'Cookie': 'AWSALB=1l92JXW91GruB93V6Kn0YgcUOVjzAGMgT/G+PqhAlotb+Z1TR8zRC32JPVRWJXjITIpFi5cHmv54lvObcKxdAfYLfO+hueglHR1ErnJ/spyqf0CiiGs/sgzojWsA; AWSALBCORS=1l92JXW91GruB93V6Kn0YgcUOVjzAGMgT/G+PqhAlotb+Z1TR8zRC32JPVRWJXjITIpFi5cHmv54lvObcKxdAfYLfO+hueglHR1ErnJ/spyqf0CiiGs/sgzojWsA'
     }
+    
+    sat_lists = [148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]
 
     r_secret = ""
     current_question = {}
@@ -61,7 +64,9 @@ class Client:
             print("ERROR:", data.status_code)
             try:
                 print("ERROR MESSAGE:", json.loads(data.text))
+                self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             except:
+                exit()
                 pass
             return
         data_json = json.loads(data.text)
@@ -76,6 +81,8 @@ class Client:
         
         self.current_question = self.parseQuestion(question_html)
         self.saveLocalProgress()
+        data_cookies = data.cookies.get_dict()
+        self.updateCookies(data_cookies)
         # print("Question (Decoded): ", self.current_question)
 
     def parseQuestion(self, htmlData):
@@ -142,7 +149,8 @@ class Client:
         self.r_secret = data_json["secret"]
 
         # Currently does nothing, but using this dict we can update the current cookies
-        # data_cookies = data.cookies.get_dict()
+        data_cookies = data.cookies.get_dict()
+        self.updateCookies(data_cookies)
 
         answer_correct = data_json["answer"]["correct"]
         
@@ -240,9 +248,10 @@ class Client:
             print("ERROR:", data.status_code)
             try:
                 print("ERROR MESSAGE:", json.loads(data.text))
+                self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             except:
-                print(data.text)
                 exit()
+                pass
             return
 
         data_json = json.loads(data.text)
@@ -254,7 +263,8 @@ class Client:
             self.question_type = data_json["qtype"]
 
             # Currently does nothing, but using this dict we can update the current cookies
-            # data_cookies = data.cookies.get_dict()
+            data_cookies = data.cookies.get_dict()
+            self.updateCookies(data_cookies)
 
             b64_question = data_json["code"]
             question_html = base64.b64decode(b64_question).decode('utf-8')
@@ -294,4 +304,10 @@ class Client:
                 self.total_points = data["points"]
                 self.question_type = data["question_type"]
                 self.r_secret = data["r_secret"]
-        
+                
+    def updateCookies(self, diction):
+        newCookies = ""
+        for key, value in diction.items():
+            if key in self.important_cookies:
+                newCookies += f"{key}={value}; "
+        self.headers['Cookie'] = newCookies.strip()[:-1]
