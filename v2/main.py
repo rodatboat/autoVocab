@@ -11,12 +11,16 @@ if __name__ == "__main__":
     # answer = vocabClient.askLLM()
     # vocabClient.answerQuestion(answer)
     
+    total_sleep = 0
+    sleep_limit = 7200 # 3600 = 1 hour, 7200 = 2 hours
+    max_points = 300000
     started = False
-    while True:
+    while True and total_sleep < sleep_limit and vocabClient.total_points < max_points:
         if started:
             sleep_time = round(random.uniform(1, 5), 3)
             print(f"Sleeping for {sleep_time}s")
             time.sleep(sleep_time)
+            total_sleep += sleep_time
         started = True
         
         if not vocabClient.fetched_question_success():
