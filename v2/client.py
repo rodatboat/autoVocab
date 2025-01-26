@@ -14,7 +14,7 @@ class Client:
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=EN6O8y+BDryMcZ8w7VUfE2ti1cZlNtG7MiQ/BzTsxhOb7GbjIXL9cA9F2P7RjOLP+YeoKuD4TWr9y8SGs5HXtZLFzO7/EIHCxAEDIfNtK5GyrAl6PasMuw3bxNwm; AWSALBCORS=EN6O8y+BDryMcZ8w7VUfE2ti1cZlNtG7MiQ/BzTsxhOb7GbjIXL9cA9F2P7RjOLP+YeoKuD4TWr9y8SGs5HXtZLFzO7/EIHCxAEDIfNtK5GyrAl6PasMuw3bxNwm; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
+    'Cookie': 'AWSALB=kThikvmAh8D34N4FACzWFeTy86ylFraazdDGKihpGx6C7SsvlvRzTPck3nViFodOgRZugCQJvjMlf4pVdjma/wOyBbCvXUp/ss3LsRzmEBIWXMz5IqT79owoFHT5; AWSALBCORS=kThikvmAh8D34N4FACzWFeTy86ylFraazdDGKihpGx6C7SsvlvRzTPck3nViFodOgRZugCQJvjMlf4pVdjma/wOyBbCvXUp/ss3LsRzmEBIWXMz5IqT79owoFHT5; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
     }
     
     sat_lists = [148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]
@@ -30,7 +30,6 @@ class Client:
 
     # RESULTS
     total_points = 0
-    error = False
 
     def __init__(self):
         self.session = requests.Session()
@@ -59,16 +58,13 @@ class Client:
 
         successful_start = data.status_code == 200
         if not successful_start:
-            self.error = True
             print("Failed to start practice session from list.")
             print("ERROR:", data.status_code)
             try:
                 print("ERROR MESSAGE:", json.loads(data.text))
                 self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             except:
-                exit()
-                pass
-            return
+                raise Exception("ERROR")
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
         
@@ -163,7 +159,6 @@ class Client:
 
         successful_start = data.status_code == 200
         if not successful_start:
-            self.error = True
             print("Failed to answer question.")
             print("ERROR:", data.status_code)
             try:
@@ -274,15 +269,13 @@ class Client:
         
         successful_start = data.status_code == 200
         if not successful_start:
-            self.error = True
             print("Failed to get next question.")
             print("ERROR:", data.status_code)
             try:
                 print("ERROR MESSAGE:", json.loads(data.text))
                 self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             except:
-                exit()
-                pass
+                raise Exception("ERROR")
             return
 
         data_json = json.loads(data.text)
@@ -341,7 +334,16 @@ class Client:
                 self.question_type = data["question_type"]
                 self.r_secret = data["r_secret"]
                 self.cookies = self.headers["Cookie"]
-                
+            
+    def fetched_question_success(self):
+        try:
+            status = self.next_question()
+            if status == -1:
+                self.start_from_list(sat_lists[random.randint(0, len(sat_lists)-1)])
+            return True
+        except:
+            return False
+        
     def updateCookies(self, diction):
         newCookies = ""
         for key, value in diction.items():

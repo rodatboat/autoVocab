@@ -7,20 +7,23 @@ sat_lists = [148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149
 
 if __name__ == "__main__":
     
-    # vocabClient.start_from_list(151263)
+    # vocabClient.start_from_list(sat_lists[random.randint(0, len(sat_lists)-1)])
     # answer = vocabClient.askLLM()
     # vocabClient.answerQuestion(answer)
     
-    listCompleted = False
-    while not listCompleted and not vocabClient.error:
-        status = vocabClient.next_question()
-        if status == -1:
-            listCompleted = True
-            break
+    started = False
+    while True:
+        if started:
+            sleep_time = round(random.uniform(1, 5), 3)
+            print(f"Sleeping for {sleep_time}s")
+            time.sleep(sleep_time)
+        started = True
+        
+        if not vocabClient.fetched_question_success():
+            print("Failed to fetch question. Retrying...")
+            time.sleep(5)
+            vocabClient.fetched_question_success()
+        
         answer = vocabClient.askLLM()
         print(answer)
         vocabClient.answerQuestion(answer)
-        
-        sleep_time = round(random.uniform(5, 10), 3)
-        print(f"Sleeping for {sleep_time}s")
-        time.sleep(sleep_time)
