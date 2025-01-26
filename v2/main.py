@@ -29,7 +29,7 @@ if __name__ == "__main__":
                 exit()
             
             fail_counter += 1
-            time.sleep(5)
+            time.sleep(1)
             fetch_success = vocabClient.fetched_question_success()
         
         answer = vocabClient.askLLM()

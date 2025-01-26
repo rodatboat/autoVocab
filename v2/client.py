@@ -189,7 +189,7 @@ class Client:
             # print(self.total_points)
             self.saveLocalProgress()
             
-            with open("data.txt", "a") as datafile:
+            with open("data.txt", "a", encoding="utf-8") as datafile:
                 line = '{}|{}|{}|{}\n'.format(self.current_question["context"], self.current_question["question"], self.current_question["choices"], answer)
                 datafile.write(line)
             return True
