@@ -335,7 +335,7 @@ class Client:
     def fetched_question_success(self):
         try:
             self.next_question()
-            if self.list_progress == -1:
+            if self.list_progress == 1:
                 self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
             return True
         except:

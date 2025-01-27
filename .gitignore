@@ -1,2 +1,3 @@
 sensitive.txt
 __pycache__
+./v2/fine-tune/outputs
