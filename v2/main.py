@@ -12,7 +12,11 @@ if __name__ == "__main__":
     wrong_answers = 0
     
     while True and total_sleep < sleep_limit and vocabClient.total_points < max_points:
-        print(f"Correct answers: {correct_answers} | Wrong answers: {wrong_answers} | Errors: {vocabClient.total_errors} | Points: {vocabClient.total_points} | Progress: {round(vocabClient.list_progress*100, 2)} % | Sleep time: {round(total_sleep, 0)}/{sleep_limit}", end="\r")
+        if wrong_answers <= 0:
+            percent_correct = 100
+        else:
+            percent_correct = (correct_answers/(wrong_answers+correct_answers))*100
+        print(f"Correct answers: {correct_answers} | Wrong answers: {wrong_answers} | Errors: {vocabClient.total_errors} | Points: {vocabClient.total_points} | Correct %: {round(percent_correct, 2)}% | List Progress %: {round(vocabClient.list_progress*100, 2)}%", end="\r")
         if started:
             sleep_time = round(random.uniform(1, 5), 3) * 0
             time.sleep(sleep_time)

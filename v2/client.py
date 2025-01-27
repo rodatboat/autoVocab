@@ -14,7 +14,7 @@ class Client:
     'Origin': 'https://www.vocabulary.com',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Cookie': 'AWSALB=xpmj4v0Uh1Et4keAefM92PP8W2UWeaTd94WUfHL+zvi1IY2Aja5WF/XEkOzlsAEvwFfU7InFAdjsYm61kugIcHN4p257WmOjUdhV4hH+ELkf95yRzEFEkGnTuvqm; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=8F38A685F031496009FD00994433321D'
+    'Cookie': 'AWSALB=QkI87W6ADe5aygliHFlv1FQN+4TbNk52V32bImx7A9JDbIEKv51BReqiKhhJ+OUI/+16aiiRfpUS2ip3ebYdgaYbckuxk93UPOoTDJ3W7z2Ohvfn9i0kpNhee701; guid=7ece0d32e6ef82d6a8ea05bd42b37e84; JSESSIONID=85C01F8D9DEB18959BD05F0847CD7765'
     }
     sat_lists = [8340291, 8995949, 9048293, 9336685, 148703, 151274, 148713, 148732, 148845, 149637, 149640, 149642, 149643, 151263, 151274, 151399, 151404, 151465, 151466, 156619, 156622, 158007, 158769, 158781, 158782, 161539]    
 
@@ -69,6 +69,7 @@ class Client:
                 raise Exception("ERROR")
         data_json = json.loads(data.text)
         self.r_secret = data_json["secret"]
+        self.list_progress = 0
         
         if int(data_json["pdata"]["points"]) < 100000:
             print("Not logged in...")
@@ -282,7 +283,9 @@ class Client:
             exit()
 
         if "game" in data_json and float(data_json["game"]["progress"]) == 1.0:
-            return -1
+            self.list_progress = 1
+            self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
+            return
         else:
             self.question_type = data_json["qtype"]
 
@@ -334,9 +337,10 @@ class Client:
             
     def fetched_question_success(self):
         try:
-            self.next_question()
             if self.list_progress == 1:
                 self.start_from_list(self.sat_lists[random.randint(0, len(self.sat_lists)-1)])
+            else:
+                self.next_question()
             return True
         except:
             return False
